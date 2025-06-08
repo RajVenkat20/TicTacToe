@@ -38,7 +38,7 @@ class TicTacToeGUI:
                         width=30, pady=10, command=lambda: self.ask_player_names(landing))
         btn2.pack(pady=10)
 
-        btn3 = tk.Button(landing, text="Best of 3 / 5", font=("Helvetica", 16),
+        btn3 = tk.Button(landing, text="Best of 3 or 5", font=("Helvetica", 16),
                         width=30, pady=10,
                         command=lambda: self.ask_match_setup(landing))
         btn3.pack(pady=10)
@@ -183,10 +183,6 @@ class TicTacToeGUI:
         tk.Radiobutton(ai_frame, text="Hard", variable=difficulty, value="Hard", font=("Helvetica", 12)).pack()
 
         def start_game():
-            if difficulty.get() == "Hard":
-                messagebox.showinfo("Coming Soon", "Hard mode AI will be available soon.")
-                return
-
             player_name = player_entry.get().strip() or "You"
             try:
                 size = int(size_entry.get().strip())
@@ -199,7 +195,8 @@ class TicTacToeGUI:
             self.board_size = size
             self.player_names = {'X': player_name, 'O': "AI"}
             ai_frame.destroy()
-            self.start_ai_game(difficulty.get())
+            self.start_ai_game(difficulty.get())  # Pass "Easy" or "Hard"
+
 
         btn_frame = tk.Frame(ai_frame)
         btn_frame.pack(pady=20)

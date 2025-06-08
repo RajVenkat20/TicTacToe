@@ -300,7 +300,8 @@ class TicTacToeGUI:
     # Function that contains the logic for AI opponent moves depending on the difficulty
     def make_ai_move(self):
         if self.ai_difficulty == "Hard":
-            _, ai_choice = self.minimax(self.game.board, 'O')
+            depth_limit = None if self.board_size == 3 else 3
+            _, ai_choice = self.minimax(self.game.board, 'O', depth_limit)
         else:
             empty_indices = [i for i, val in enumerate(self.game.board) if val == '_']
             ai_choice = random.choice(empty_indices)
@@ -315,27 +316,27 @@ class TicTacToeGUI:
             self.status_label.config(text=f"{self.player_names['X']}'s turn (X)")
     
     # Minimax algorithm that the AI opponent uses when the difficulty is set to "Hard"
-    def minimax(self, board, player):
+    def minimax(self, board, player, max_depth=None, depth=0):
         winner = self.check_winner_for_board(board)
         if winner == 'O':
-            return (1, None)
+            return (10 - depth, None)  # Prefer faster wins
         elif winner == 'X':
-            return (-1, None)
+            return (-10 + depth, None)  # Prefer slower losses
         elif '_' not in board:
             return (0, None)
+
+        if max_depth is not None and depth >= max_depth:
+            return (0, None)  # Depth cutoff
 
         moves = []
         for i in range(len(board)):
             if board[i] == '_':
                 new_board = board[:]
                 new_board[i] = player
-                score, _ = self.minimax(new_board, 'X' if player == 'O' else 'O')
+                score, _ = self.minimax(new_board, 'X' if player == 'O' else 'O', max_depth, depth + 1)
                 moves.append((score, i))
 
-        if player == 'O':
-            return max(moves)
-        else:
-            return min(moves)
+        return max(moves) if player == 'O' else min(moves)
     
     # Function to check if the board state leads to a winner in Minimax algorithm
     def check_winner_for_board(self, board):

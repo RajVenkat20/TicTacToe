@@ -18,6 +18,7 @@ class TicTacToeGUI:
         self.game = None
         self.home_screen()
 
+    # Home page GUI screen code for the game
     def home_screen(self):
         landing = tk.Frame(self.root)
         landing.pack(expand=True)
@@ -47,6 +48,7 @@ class TicTacToeGUI:
                             command=self.root.destroy)
         quit_btn.pack(pady=20)
 
+    # GUI screen code for registering Player names
     def ask_player_names(self, landing_frame):
         landing_frame.destroy()
         name_frame = tk.Frame(self.root)
@@ -95,7 +97,8 @@ class TicTacToeGUI:
             btn_frame, text="Return to Home", font=("Helvetica", 14), width=15,
             command=lambda: [name_frame.destroy(), self.home_screen()]
         ).pack(side=tk.LEFT, padx=10)
-        
+    
+    # Best of 3 or 5 mode gui screen code
     def ask_match_setup(self, landing_frame):
         landing_frame.destroy()
         setup_frame = tk.Frame(self.root)
@@ -158,6 +161,7 @@ class TicTacToeGUI:
             command=lambda: [setup_frame.destroy(), self.home_screen()]
         ).pack(side=tk.LEFT, padx=10)
 
+    # Play against mode AI gui screen code 
     def ask_ai_setup(self, landing_frame):
         landing_frame.destroy()
         ai_frame = tk.Frame(self.root)
@@ -205,7 +209,7 @@ class TicTacToeGUI:
         tk.Button(btn_frame, text="Return to Home", font=("Helvetica", 14), width=15,
                 command=lambda: [ai_frame.destroy(), self.home_screen()]).pack(side=tk.LEFT, padx=10)
 
-
+    # Function that is triggered when the games starts in Play with AI mode
     def start_ai_game(self, difficulty="Easy"):
         self.game = TicTacToe(self.board_size)
         self.ai_difficulty = difficulty
@@ -241,6 +245,7 @@ class TicTacToeGUI:
         self.root.update_idletasks()
         self.root.minsize(self.root.winfo_width(), self.root.winfo_height())
 
+    # Function to handle the logic for when AI makes a move
     def handle_ai_move(self, idx):
         if self.game.board[idx] != '_':
             return  # Invalid move
@@ -259,6 +264,7 @@ class TicTacToeGUI:
         # AI move (basic: random empty spot)
         self.root.after(500, self.make_ai_move)
 
+    # Function that contains the logic for AI opponent moves depending on the difficulty
     def make_ai_move(self):
         if self.ai_difficulty == "Hard":
             _, ai_choice = self.minimax(self.game.board, 'O')
@@ -274,7 +280,8 @@ class TicTacToeGUI:
             self.ask_reset()
         else:
             self.status_label.config(text=f"{self.player_names['X']}'s turn (X)")
-
+    
+    # Minimax algorithm that the AI opponent uses when the difficulty is set to "Hard"
     def minimax(self, board, player):
         winner = self.check_winner_for_board(board)
         if winner == 'O':
@@ -296,7 +303,8 @@ class TicTacToeGUI:
             return max(moves)
         else:
             return min(moves)
-        
+    
+    # Function to check if the board state leads to a winner in Minimax algorithm
     def check_winner_for_board(self, board):
         size = self.board_size
 
@@ -322,6 +330,7 @@ class TicTacToeGUI:
 
         return None
 
+    # Function to start a game
     def start_match_game(self):
         self.game = TicTacToe(self.board_size)
 
@@ -370,6 +379,7 @@ class TicTacToeGUI:
             command=lambda: [self.game_frame.destroy(), self.home_screen()]
         ).grid(row=self.board_size + 4, column=0, columnspan=self.board_size, pady=20)
 
+    # Function that starts 2 player game
     def start_multiplayer_game(self, player1_name, player2_name):
         self.player_names = {'X': player1_name, 'O': player2_name}
         self.game = TicTacToe(self.board_size)
@@ -400,6 +410,7 @@ class TicTacToeGUI:
             command=lambda: [self.game_frame.destroy(), self.home_screen()]
         ).grid(row=self.board_size + 4, column=0, columnspan=self.board_size, pady=20)
 
+    # Function to handle player move logic in 2 player single game mode
     def handle_move(self, idx):
         if self.game.make_move(idx):
             row, col = divmod(idx, self.board_size)
@@ -415,6 +426,7 @@ class TicTacToeGUI:
                     text=f"{self.player_names[self.game.current_player]}'s turn ({self.game.current_player})"
                 )
 
+    # Function to handle player move logic in 2 player best of 3 or 5 mode
     def handle_match_move(self, idx):
         if self.game.make_move(idx):
             row, col = divmod(idx, self.board_size)
@@ -436,6 +448,7 @@ class TicTacToeGUI:
                     text=f"{self.player_names[self.game.current_player]}'s turn ({self.game.current_player})"
                 )
 
+    # Function to display the results of a match in a window
     def show_match_result(self, result_text):
         win_target = (self.total_games // 2) + 1
         if self.scores['X'] >= win_target or self.scores['O'] >= win_target:
@@ -447,13 +460,11 @@ class TicTacToeGUI:
             popup.title("Round Over")
             popup.transient(self.root)
             popup.grab_set()
-
             popup.geometry("+%d+%d" % (self.root.winfo_rootx() + 100, self.root.winfo_rooty() + 100))
 
             tk.Label(popup, text=result_text, font=("Helvetica", 16), pady=10).pack()
             tk.Label(popup, text="Continue to next game?", font=("Helvetica", 14)).pack()
             
-
             def next_game():
                 popup.destroy()    
                 self.current_game += 1
@@ -464,16 +475,15 @@ class TicTacToeGUI:
                 self.game_frame.destroy()
                 self.home_screen()
 
-            
             tk.Button(popup, text="Next Game", font=("Helvetica", 14), width=12, command=next_game).pack(side=tk.LEFT, padx=10, pady=20)
             tk.Button(popup, text="Return to Home", font=("Helvetica", 14), width=15, command=quit_match).pack(side=tk.LEFT, padx=10, pady=20)
         
+    # Function to display the final winner in best of 3 or 5 series
     def show_final_winner(self):
         popup = tk.Toplevel(self.root)
         popup.title("Match Over")
         popup.transient(self.root)
         popup.grab_set()
-
         popup.geometry("+%d+%d" % (self.root.winfo_rootx() + 100, self.root.winfo_rooty() + 100))
 
         x_score, o_score = self.scores['X'], self.scores['O']
@@ -494,6 +504,7 @@ class TicTacToeGUI:
 
         tk.Button(popup, text="Return to Home", font=("Helvetica", 14), width=20, command=return_home).pack(pady=20)
 
+    # Function to reset the game and go back to the initial board state
     def ask_reset(self):
         popup = tk.Toplevel(self.root)
         popup.title("Game Over")
@@ -533,5 +544,6 @@ class TicTacToeGUI:
         tk.Button(btn_frame, text="Yes", font=("Helvetica", 14), width=12, command=play_again).pack(side=tk.LEFT, padx=10)
         tk.Button(btn_frame, text="Return to Home", font=("Helvetica", 14), width=15, command=return_home).pack(side=tk.LEFT, padx=10)
 
+    # Main function to trigger the game code
     def run(self):
         self.root.mainloop()

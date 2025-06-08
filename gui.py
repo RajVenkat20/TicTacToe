@@ -278,7 +278,27 @@ class TicTacToeGUI:
         else:
             self.status_label.config(text=f"{self.player_names['X']}'s turn (X)")
 
-    
+    def minimax(self, board, player):
+        winner = self.check_winner_for_board(board)
+        if winner == 'O':
+            return (1, None)
+        elif winner == 'X':
+            return (-1, None)
+        elif '_' not in board:
+            return (0, None)
+
+        moves = []
+        for i in range(len(board)):
+            if board[i] == '_':
+                new_board = board[:]
+                new_board[i] = player
+                score, _ = self.minimax(new_board, 'X' if player == 'O' else 'O')
+                moves.append((score, i))
+
+        if player == 'O':
+            return max(moves)
+        else:
+            return min(moves)
 
     def start_match_game(self):
         self.game = TicTacToe(self.board_size)

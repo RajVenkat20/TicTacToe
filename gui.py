@@ -199,7 +199,7 @@ class TicTacToeGUI:
             self.board_size = size
             self.player_names = {'X': player_name, 'O': "AI"}
             ai_frame.destroy()
-            self.start_ai_game()
+            self.start_ai_game(difficulty.get())
 
         btn_frame = tk.Frame(ai_frame)
         btn_frame.pack(pady=20)
@@ -209,8 +209,9 @@ class TicTacToeGUI:
                 command=lambda: [ai_frame.destroy(), self.landing_screen()]).pack(side=tk.LEFT, padx=10)
 
 
-    def start_ai_game(self):
+    def start_ai_game(self, difficulty="Easy"):
         self.game = TicTacToe(self.board_size)
+        self.ai_difficulty = difficulty
 
         if self.game_frame:
             self.game_frame.destroy()
@@ -262,13 +263,13 @@ class TicTacToeGUI:
         self.root.after(500, self.make_ai_move)
 
     def make_ai_move(self):
-        empty_indices = [i for i, val in enumerate(self.game.board) if val == '_']
-        if not empty_indices:
-            return
+        if self.ai_difficulty == "Hard":
+            _, ai_choice = self.minimax(self.game.board, 'O')
+        else:
+            empty_indices = [i for i, val in enumerate(self.game.board) if val == '_']
+            ai_choice = random.choice(empty_indices)
 
-        ai_choice = random.choice(empty_indices)
         self.game.make_move(ai_choice)
-
         row, col = divmod(ai_choice, self.board_size)
         self.buttons[row][col].config(text='O', fg='blue')
 
@@ -276,6 +277,8 @@ class TicTacToeGUI:
             self.ask_reset()
         else:
             self.status_label.config(text=f"{self.player_names['X']}'s turn (X)")
+
+    
 
     def start_match_game(self):
         self.game = TicTacToe(self.board_size)

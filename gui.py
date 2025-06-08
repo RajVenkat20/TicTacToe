@@ -61,12 +61,12 @@ class TicTacToeGUI:
         tk.Label(instructions_frame, text="How to Play Tic-Tac-Toe", font=("Comic Sans MS", 24, "bold")).pack(pady=10)
 
         instructions = [
-            "1. The game is played on a grid that’s 3×3 or larger.",
+            "1. The game is played on a grid that's 3x3 or larger.",
             "2. You are X, your opponent (or AI) is O.",
             "3. Players take turns putting their marks in empty squares.",
             "4. The first player to get a row, column, or diagonal wins.",
-            "5. If all squares are filled and no one has won, it’s a draw.",
-            "6. In Best of 3/5 mode, the player with more round wins takes the match.",
+            "5. If all squares are filled and no one has won, it's a draw.",
+            "6. In Best of 3 or 5 mode, the player with more round wins takes the match or else it's a draw.",
             "7. In AI mode, you can play against Easy or Hard AI.",
         ]
 
@@ -78,7 +78,7 @@ class TicTacToeGUI:
 
         # Return to Home button
         tk.Button(instructions_frame, text="Return to Home", font=("Helvetica", 14),
-                command=lambda: [instructions_frame.destroy(), self.landing_screen()]).pack(pady=20)
+                command=lambda: [instructions_frame.destroy(), self.home_screen()]).pack(pady=20)
 
 
     # GUI screen code for registering Player names

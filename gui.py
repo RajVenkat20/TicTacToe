@@ -299,6 +299,31 @@ class TicTacToeGUI:
             return max(moves)
         else:
             return min(moves)
+        
+    def check_winner_for_board(self, board):
+        size = self.board_size
+
+        # Rows
+        for i in range(0, size ** 2, size):
+            row = board[i:i + size]
+            if row.count(row[0]) == size and row[0] != '_':
+                return row[0]
+
+        # Columns
+        for col in range(size):
+            column = [board[col + row * size] for row in range(size)]
+            if column.count(column[0]) == size and column[0] != '_':
+                return column[0]
+
+        # Diagonals
+        diag1 = [board[i * (size + 1)] for i in range(size)]
+        diag2 = [board[(i + 1) * (size - 1)] for i in range(size)]
+        if diag1.count(diag1[0]) == size and diag1[0] != '_':
+            return diag1[0]
+        if diag2.count(diag2[0]) == size and diag2[0] != '_':
+            return diag2[0]
+
+        return None
 
     def start_match_game(self):
         self.game = TicTacToe(self.board_size)

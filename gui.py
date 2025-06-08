@@ -171,7 +171,7 @@ class TicTacToeGUI:
         player_entry.pack(pady=5)
 
         # Board size input
-        tk.Label(ai_frame, text="Board Size (e.g., 3):", font=("Helvetica", 14)).pack()
+        tk.Label(ai_frame, text="Board Size (e.g., 3 for 3x3):", font=("Helvetica", 14)).pack()
         size_entry = tk.Entry(ai_frame, font=("Helvetica", 14))
         size_entry.insert(0, "3")
         size_entry.pack(pady=5)

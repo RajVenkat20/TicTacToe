@@ -165,16 +165,28 @@ class TicTacToeGUI:
 
         tk.Label(ai_frame, text="Play Against AI", font=("Comic Sans MS", 24, "bold")).pack(pady=10)
 
+        # Player name input
         tk.Label(ai_frame, text="Your Name (X):", font=("Helvetica", 14)).pack()
         player_entry = tk.Entry(ai_frame, font=("Helvetica", 14))
         player_entry.pack(pady=5)
 
+        # Board size input
         tk.Label(ai_frame, text="Board Size (e.g., 3):", font=("Helvetica", 14)).pack()
         size_entry = tk.Entry(ai_frame, font=("Helvetica", 14))
         size_entry.insert(0, "3")
         size_entry.pack(pady=5)
 
+        # Difficulty selection
+        tk.Label(ai_frame, text="Select Difficulty:", font=("Helvetica", 14)).pack(pady=10)
+        difficulty = tk.StringVar(value="Easy")
+        tk.Radiobutton(ai_frame, text="Easy", variable=difficulty, value="Easy", font=("Helvetica", 12)).pack()
+        tk.Radiobutton(ai_frame, text="Hard", variable=difficulty, value="Hard", font=("Helvetica", 12)).pack()
+
         def start_game():
+            if difficulty.get() == "Hard":
+                messagebox.showinfo("Coming Soon", "Hard mode AI will be available soon.")
+                return
+
             player_name = player_entry.get().strip() or "You"
             try:
                 size = int(size_entry.get().strip())
@@ -195,6 +207,7 @@ class TicTacToeGUI:
         tk.Button(btn_frame, text="Start Game", font=("Helvetica", 14), width=15, command=start_game).pack(side=tk.LEFT, padx=10)
         tk.Button(btn_frame, text="Return to Home", font=("Helvetica", 14), width=15,
                 command=lambda: [ai_frame.destroy(), self.landing_screen()]).pack(side=tk.LEFT, padx=10)
+
 
     def start_ai_game(self):
         self.game = TicTacToe(self.board_size)

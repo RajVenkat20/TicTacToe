@@ -30,6 +30,9 @@ class TicTacToeGUI:
         tk.Label(title_frame, text="-Tac-", font=("Comic Sans MS", 36, "bold"), fg="black").pack(side=tk.LEFT)
         tk.Label(title_frame, text="Toe", font=("Comic Sans MS", 36, "bold"), fg="blue").pack(side=tk.LEFT)
 
+        instructions_btn = tk.Button(landing, text="Instructions", font=("Helvetica", 16), width=30, pady=10,
+                             command=lambda: self.show_instructions(landing))
+        instructions_btn.pack(pady=10)
 
         btn1 = tk.Button(landing, text="Play with AI", font=("Helvetica", 16), width=30, pady=10,
                  command=lambda: self.ask_ai_setup(landing))
@@ -47,6 +50,36 @@ class TicTacToeGUI:
         quit_btn = tk.Button(landing, text="Quit", font=("Helvetica", 16), width=30, pady=10,
                             command=self.root.destroy)
         quit_btn.pack(pady=20)
+
+    # Function to display instructions when "Instructions" button is clicked on the Home Screen
+    def show_instructions(self, landing_frame):
+        landing_frame.destroy()
+
+        instructions_frame = tk.Frame(self.root)
+        instructions_frame.pack(expand=True, pady=30)
+
+        tk.Label(instructions_frame, text="How to Play Tic-Tac-Toe", font=("Comic Sans MS", 24, "bold")).pack(pady=10)
+
+        instructions = [
+            "1. The game is played on a grid that’s 3×3 or larger.",
+            "2. You are X, your opponent (or AI) is O.",
+            "3. Players take turns putting their marks in empty squares.",
+            "4. The first player to get a row, column, or diagonal wins.",
+            "5. If all squares are filled and no one has won, it’s a draw.",
+            "6. In Best of 3/5 mode, the player with more round wins takes the match.",
+            "7. In AI mode, you can play against Easy or Hard AI.",
+        ]
+
+        text_frame = tk.Frame(instructions_frame)
+        text_frame.pack(padx=30, pady=10)
+
+        for line in instructions:
+            tk.Label(text_frame, text=line, anchor="w", justify="left", font=("Helvetica", 12)).pack(anchor="w", pady=2)
+
+        # Return to Home button
+        tk.Button(instructions_frame, text="Return to Home", font=("Helvetica", 14),
+                command=lambda: [instructions_frame.destroy(), self.landing_screen()]).pack(pady=20)
+
 
     # GUI screen code for registering Player names
     def ask_player_names(self, landing_frame):

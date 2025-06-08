@@ -16,9 +16,9 @@ class TicTacToeGUI:
         self.buttons = []
         self.status_label = None
         self.game = None
-        self.landing_screen()
+        self.home_screen()
 
-    def landing_screen(self):
+    def home_screen(self):
         landing = tk.Frame(self.root)
         landing.pack(expand=True)
 
@@ -93,7 +93,7 @@ class TicTacToeGUI:
 
         tk.Button(
             btn_frame, text="Return to Home", font=("Helvetica", 14), width=15,
-            command=lambda: [name_frame.destroy(), self.landing_screen()]
+            command=lambda: [name_frame.destroy(), self.home_screen()]
         ).pack(side=tk.LEFT, padx=10)
         
     def ask_match_setup(self, landing_frame):
@@ -155,7 +155,7 @@ class TicTacToeGUI:
 
         tk.Button(
             btn_frame, text="Return to Home", font=("Helvetica", 14), width=15,
-            command=lambda: [setup_frame.destroy(), self.landing_screen()]
+            command=lambda: [setup_frame.destroy(), self.home_screen()]
         ).pack(side=tk.LEFT, padx=10)
 
     def ask_ai_setup(self, landing_frame):
@@ -183,7 +183,7 @@ class TicTacToeGUI:
         tk.Radiobutton(ai_frame, text="Hard", variable=difficulty, value="Hard", font=("Helvetica", 12)).pack()
 
         def start_game():
-            player_name = player_entry.get().strip() or "You"
+            player_name = player_entry.get().strip() or "Player"
             try:
                 size = int(size_entry.get().strip())
                 if size < 2:
@@ -203,7 +203,7 @@ class TicTacToeGUI:
 
         tk.Button(btn_frame, text="Start Game", font=("Helvetica", 14), width=15, command=start_game).pack(side=tk.LEFT, padx=10)
         tk.Button(btn_frame, text="Return to Home", font=("Helvetica", 14), width=15,
-                command=lambda: [ai_frame.destroy(), self.landing_screen()]).pack(side=tk.LEFT, padx=10)
+                command=lambda: [ai_frame.destroy(), self.home_screen()]).pack(side=tk.LEFT, padx=10)
 
 
     def start_ai_game(self, difficulty="Easy"):
@@ -234,7 +234,7 @@ class TicTacToeGUI:
             self.buttons.append(row)
 
         tk.Button(self.game_frame, text="Return to Home", font=("Helvetica", 14),
-                command=lambda: [self.game_frame.destroy(), self.landing_screen()]).grid(
+                command=lambda: [self.game_frame.destroy(), self.home_screen()]).grid(
             row=self.board_size + 2, column=0, columnspan=self.board_size, pady=20
         )
 
@@ -367,7 +367,7 @@ class TicTacToeGUI:
             self.game_frame,
             text="Return to Home",
             font=("Helvetica", 14),
-            command=lambda: [self.game_frame.destroy(), self.landing_screen()]
+            command=lambda: [self.game_frame.destroy(), self.home_screen()]
         ).grid(row=self.board_size + 4, column=0, columnspan=self.board_size, pady=20)
 
     def start_multiplayer_game(self, player1_name, player2_name):
@@ -397,7 +397,7 @@ class TicTacToeGUI:
             self.game_frame,
             text="Return to Home",
             font=("Helvetica", 14),
-            command=lambda: [self.game_frame.destroy(), self.landing_screen()]
+            command=lambda: [self.game_frame.destroy(), self.home_screen()]
         ).grid(row=self.board_size + 4, column=0, columnspan=self.board_size, pady=20)
 
     def handle_move(self, idx):
@@ -462,7 +462,7 @@ class TicTacToeGUI:
             def quit_match():
                 popup.destroy()
                 self.game_frame.destroy()
-                self.landing_screen()
+                self.home_screen()
 
             
             tk.Button(popup, text="Next Game", font=("Helvetica", 14), width=12, command=next_game).pack(side=tk.LEFT, padx=10, pady=20)
@@ -490,7 +490,7 @@ class TicTacToeGUI:
         def return_home():
             popup.destroy()
             self.game_frame.destroy()
-            self.landing_screen()
+            self.home_screen()
 
         tk.Button(popup, text="Return to Home", font=("Helvetica", 14), width=20, command=return_home).pack(pady=20)
 
@@ -528,7 +528,7 @@ class TicTacToeGUI:
         def return_home():
             popup.destroy()
             self.game_frame.destroy()
-            self.landing_screen()
+            self.home_screen()
 
         tk.Button(btn_frame, text="Yes", font=("Helvetica", 14), width=12, command=play_again).pack(side=tk.LEFT, padx=10)
         tk.Button(btn_frame, text="Return to Home", font=("Helvetica", 14), width=15, command=return_home).pack(side=tk.LEFT, padx=10)
